@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Introduction to Rust</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.8.0/css/reset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.8.0/css/reveal.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@3.8.0/css/theme/black.min.css">
+
+<!-- Theme used for syntax highlighting of code -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/monokai.min.css">
+
+
+<!-- Printing and PDF exports -->
+<script>
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'https://cdn.jsdelivr.net/npm/reveal.js@3.8.0/css/print/pdf.min.css' : 'https://cdn.jsdelivr.net/npm/reveal.js@3.8.0/css/print/paper.min.css';
+  document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+
+
+
+<style>
+  .reveal .slides img.logo-img {
+    background: white;
+    border: 10px solid #fff;
+    border-radius: 10px;
+  }
+
+  .reveal .slides .font175 {
+    font-size: 175%;
+  }
+
+  .reveal .slides .font150 {
+    font-size: 150%;
+  }
+
+  .reveal .slides .font120 {
+    font-size: 120%;
+  }
+
+  .reveal .slides .font75 {
+    font-size: 75%;
+  }
+
+  .reveal .slides .font70 {
+    font-size: 70%;
+  }
+
+  .reveal .slides .font45 {
+    font-size: 45%;
+  }
+
+  .reveal .slides .underline {
+    text-decoration: underline;
+  }
+
+  .reveal .slides .mt0 {
+    margin-top: 0;
+  }
+
+  .reveal .slides .mb0 {
+    margin-bottom: 0;
+  }
+
+  .reveal .slides .white-bg {
+    background: white;
+  }
+
+  .reveal .slides pre > code > strong:not(.red) {
+    background-color: yellow;
+    color: black;
+  }
+
+  .reveal .slides pre > code > strong.red {
+    background-color: red;
+    color: black;
+  }
+
+  .reveal h1 {
+    font-size: 1.6em;
+  }
+
+  .reveal .title-slide h1 {
+    .font-size: 2.5em;
+  }
+</style>
+
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section class="center">
+      <h1>Introduction to Rust</h1>
+    </section>
+<section id="what-is-rust" class="title-slide slide level1"><h1>What is <a href="https://www.rust-lang.org/">Rust</a>?</h1><p>A new language bringing features of modern programming languages to systems</p>
+<p>…with a focus on safety, speed, and concurrency, and <em>zero-cost abstractions</em> (from C++’s <a href="https://isocpp.org/wiki/faq/big-picture#zero-overhead-principle">zero-overhead principle</a>).</p></section>
+<section><section id="resources" class="title-slide slide level1"><h1><a href="https://www.rust-lang.org/learn">Resources</a></h1><p><a href="https://doc.rust-lang.org/book/">The Book</a>; <a href="https://doc.rust-lang.org/stable/rust-by-example/">Rust by Example</a></p>
+<p><a href="https://doc.rust-lang.org/std/index.html">Standard library documentation</a></p>
+<p><a href="https://doc.rust-lang.org/nomicon/index.html">Rustonomicon</a>; <a href="https://doc.rust-lang.org/reference/index.html">Reference</a></p></section><section id="rsdoc-search-engine" class="slide level2">
+<h2>rsdoc search engine</h2>
+<p>On Firefox, you can add <a href="https://doc.rust-lang.org/std/index.html?search=%s">this</a> as a keyword bookmark.</p>
+</section></section>
+<section><section id="installing-rust" class="title-slide slide level1"><h1>Installing Rust</h1><p>Use <a href="https://www.rust-lang.org/tools/install">Rustup</a>.</p></section><section id="why-rustup" class="slide level2">
+<h2>Why Rustup?</h2>
+<p>It’s common to want to use different versions of the compiler.</p>
+<p>Rustup also helps you install new targets (to cross-compile).</p>
+</section><section id="different-versions" class="slide level2">
+<h2>Different versions?</h2>
+<p>New features start off in Unstable Rust and “cook” for a while.</p>
+<p>It is only possible to use unstable features using the Nightly build.</p>
+<p>Also, you may need to test your project on older versions at times.</p>
+</section><section id="cross-compilation" class="slide level2">
+<h2>Cross-compilation</h2>
+<p>Rust is based on LLVM, and so cross-compilation is supported out-of-the-box.</p>
+<p>But to target a target, you need to have the standard library for that target. Rustup helps you install those additional things.</p>
+</section></section>
+<section id="hello-world" class="title-slide slide level1"><h1>Hello world</h1><pre class="rs"><code>fn main() {
+  println!(&quot;Hello world!&quot;);
+}</code></pre>
+<p>Compile and run</p>
+<pre class="shell"><code>$ rustc helloworld.rs
+$ ./helloworld
+Hello world!</code></pre></section>
+<section><section id="hello-cargo" class="title-slide slide level1"><h1>Hello Cargo</h1><p>Cargo is Rust’s build system and package manager.</p>
+<pre class="shell"><code>$ cargo new --bin hello_cargo
+$ cd hello_cargo</code></pre>
+<h2>
+<code>Cargo.toml</code>
+</h2>
+<p><code>Cargo.toml</code> is the package metadata file (akin to e.g. <code>package.json</code>, etc).</p>
+<p>The format is <a href="https://github.com/toml-lang/toml">TOML</a>.</p></section><section id="cargo.toml" class="slide level2">
+<h2><code>Cargo.toml</code></h2>
+<pre class="toml"><code>[package]
+name = &quot;hello_cargo&quot;
+version = &quot;0.1.0&quot;
+authors = [&quot;Your Name &lt;you@example.com&gt;&quot;]
+edition = &quot;2018&quot;
+
+[dependencies]</code></pre>
+</section><section id="compiling-with-cargo" class="slide level2">
+<h2>Compiling with Cargo</h2>
+<p>Edit your program: <code>src/main.rs</code></p>
+<pre class="rs"><code>fn main() {
+  println!(&quot;Hello Cargo!&quot;);
+}</code></pre>
+<p>Compile and run</p>
+<pre><code>$ cargo build
+$ target/debug/hello_cargo
+# Or...
+$ cargo run</code></pre>
+</section><section id="moving-forward" class="slide level2">
+<h2>Moving forward</h2>
+<p>Until we start using Cargo features, you can either call <code>rustc</code> directly, or use Cargo.</p>
+</section></section>
+<section id="basic-syntax" class="title-slide slide level1"><h1>Basic syntax</h1><pre class="rs"><code>fn main() {
+  let x = true;
+  let mut y: u32 = 1u32;
+  if x {
+    println!(&quot;{}&quot;, y);
+    y += 1;
+  }
+
+  while y &lt; 10 {
+    y += 1;
+    println!(&quot;{}&quot;, y);
+  }
+}</code></pre></section>
+<section id="basic-syntax-1" class="title-slide slide level1"><h1>Basic syntax</h1><pre class="rs"><code>fn add(i: i32, j: i32) -&gt; i32 {
+  i + j // comment
+}
+/* comment */
+/* /* nested comment */ */
+fn main() { println!(&quot;{}&quot;, add(3, 5)); }</code></pre>
+<p>The last expression in a block is returned.</p></section>
+<section id="println" class="title-slide slide level1"><h1><code>println</code></h1><p><code>println</code> is a macro.<br />
+Macros are invoked using <code>macro!(...)</code> (note the <code>!</code>).<br />
+(We’ll go into macros in more detail later.)</p>
+<p><a href="https://doc.rust-lang.org/std/fmt/index.html#usage">Format string syntax</a></p>
+<p>Of note are <code>{}</code>, which is the generic display,<br />
+and <code>{:?}</code>, which is the debug print specifier.<br />
+(We’ll demonstrate the power of <code>{:?}</code> later.)</p></section>
+<section id="primitive-scalar-types-br" class="title-slide slide level1"><h1>Primitive scalar types <a href="https://doc.rust-lang.org/book/ch03-02-data-types.html">[B]</a><a href="https://doc.rust-lang.org/stable/reference/expressions/literal-expr.html">[R]</a></h1><p>Boolean: <code>bool</code>: <code>true</code> or <code>false</code></p>
+<p>Integers: {<code>i</code>, <code>u</code>}{<code>8</code>, <code>16</code>, <code>32</code>, <code>64</code>, <code>128</code>, <code>size</code>}<br />
+e.g. <code>1</code>, <code>1u64</code>; default <code>i32</code></p>
+<p>Floats: <code>f32</code>, <code>f64</code> e.g <code>2f64</code>, <code>2.</code>, <code>2.0</code><br />
+default <code>f64</code></p>
+<p>Unicode character: <code>char</code> e.g. <code>'a'</code>, <code>'🤔'</code></p>
+<p>Unit type: <code>()</code></p></section>
+<section id="number-literals-r" class="title-slide slide level1"><h1>Number literals <a href="https://doc.rust-lang.org/stable/reference/tokens.html#integer-literals">[R]</a></h1><p>Binary literals: <code>0b010101</code></p>
+<p>Octal literals: <code>0o25</code></p>
+<p>Hex literals: <code>0x15</code></p>
+<p>Number separators: <code>123_456_789</code></p></section>
+<section id="string-literals-r" class="title-slide slide level1"><h1>String literals <a href="https://doc.rust-lang.org/stable/reference/tokens.html#string-literals">[R]</a></h1><p>Strings: <code>"abc"</code></p>
+<p>Raw strings:</p>
+<pre class="rs"><code>r#&quot;hello! I am a raw string
+I can contain any number of &quot; and # and r#&quot; and //
+and \ but I end the moment we have &quot;# // this is a comment</code></pre>
+<p>Also <a href="https://doc.rust-lang.org/stable/reference/tokens.html#byte-and-byte-string-literals">byte literals and byte string literals</a>.</p></section>
+<section id="tuples-and-arrays-b" class="title-slide slide level1"><h1>Tuples and arrays <a href="https://doc.rust-lang.org/book/ch03-02-data-types.html#the-tuple-type">[B]</a></h1><pre class="rs"><code>let x: (i32, i32, i32) = (1, 2, 3);
+let y: [i32; 3] = [1, 2, 3];
+let z = [0u32; 500]; // array of 500 0u32</code></pre>
+<p>Notice that the length of an array is part of its type.</p></section>
+<section id="type-casting-r" class="title-slide slide level1"><h1>Type casting <a href="https://doc.rust-lang.org/stable/reference/expressions/operator-expr.html#type-cast-expressions">[R]</a></h1><p>Most commonly used to convert between numeric types:</p>
+<pre class="rs"><code>let x: i32 = 5;
+x as i16</code></pre></section>
+<section><section id="expressions-and-statements-r" class="title-slide slide level1"><h1>Expressions and statements <a href="https://doc.rust-lang.org/stable/reference/expressions.html">[R]</a></h1><p>Rust is an <em>expression-based</em> language.</p>
+<p>Most things are expressions, including <code>if</code>, and loops.</p>
+<p>The only thing that is a statement is the <code>let</code> statement.</p></section><section id="block-expression" class="slide level2">
+<h2>Block expression</h2>
+<p>All blocks are expressions.</p>
+<pre class="rs"><code>println!(&quot;{:?}&quot;, {
+  let mut y = 0;
+  while y &lt; 10 { y += 1; }
+  y
+});</code></pre>
+<p>Blocks evaluate to the last expression evaluated.</p>
+</section><section id="the-semicolon" class="slide level2">
+<h2>The semicolon</h2>
+<p><code>;</code> converts an expression to a statement (which is of type <code>()</code>), discarding the value.</p>
+<pre class="rs"><code>println!(&quot;{:?}&quot;, {
+  let mut y = 0;
+  while y &lt; 10 { y += 1; }
+  y;
+});</code></pre>
+</section><section id="if-expression-b" class="slide level2">
+<h2><code>if</code> expression <a href="https://doc.rust-lang.org/book/ch03-05-control-flow.html#if-expressions">[B]</a></h2>
+<p><code>if</code> is an expression.</p>
+<pre class="rs"><code>let x = true;
+println!(&quot;{}&quot;, if x { 1 } else { 0 });</code></pre>
+<p>Note that both branches must evaluate to the same type (which could be <code>()</code>).</p>
+</section><section id="while-loop-b" class="slide level2">
+<h2><code>while</code> loop <a href="https://doc.rust-lang.org/book/ch03-05-control-flow.html#conditional-loops-with-while">[B]</a></h2>
+<p>The <code>while</code> loop is an expression evaluating to <code>()</code>.</p>
+<pre class="rs"><code>let mut x = 0;
+println!(&quot;{:?}&quot;, while x &lt; 10 { x += 1; });</code></pre>
+</section><section id="for-loop-b" class="slide level2">
+<h2><code>for</code> loop <a href="https://doc.rust-lang.org/book/ch03-05-control-flow.html#looping-through-a-collection-with-for">[B]</a></h2>
+<p>The <code>for</code> loop is an expression evaluating to <code>()</code>.</p>
+<pre class="rs"><code>let x = [1, 2, 3];
+for y in &amp;x {
+  println!(&quot;{}&quot;, y);
+}</code></pre>
+</section><section id="infinite-loop-b" class="slide level2">
+<h2>Infinite loop <a href="https://doc.rust-lang.org/book/ch03-05-control-flow.html#repeating-code-with-loop">[B]</a></h2>
+<pre class="rs"><code>let mut x = 0;
+println!(&quot;{}&quot;, loop {
+  x += 1;
+  if x &gt; 10 { break x; }
+});</code></pre>
+<p><code>loop</code> expressions can evaluate to a non-<code>()</code> value!</p>
+</section></section>
+<section id="range-expressions-r" class="title-slide slide level1"><h1>Range expressions <a href="https://doc.rust-lang.org/stable/reference/expressions/range-expr.html">[R]</a></h1><pre class="rs"><code>let x = [1, 2, 3, 4, 5];
+for i in 0..x.len() {
+  println!(&quot;{}&quot;, x[i]);
+}
+for i in 0..=4 {
+  println!(&quot;{}&quot;, x[i]);
+}</code></pre></section>
+<section><section id="macros" class="title-slide slide level1"><h1>Macros</h1><p>Rust macros are <em>not</em> like CPP macros.</p>
+<p>They operate on the AST level at compile-time.</p>
+<p><a href="https://doc.rust-lang.org/std/index.html#macros">Standard library macros</a></p>
+<p>Macro invocations generally look like <code>macro!(...)</code>.</p></section><section id="formatting-macros" class="slide level2">
+<h2>Formatting macros</h2>
+<p>Macros operate on the AST level at compile-time.</p>
+<pre class="rs"><code>println!(&quot;Hello! {0} in hex is {0:02X}&quot;, 15);</code></pre>
+<p>This means that format strings are actually parsed and type-checked <em>at compile-time</em>,</p>
+<pre class="rs"><code>println!(&quot;Hello! {0} in hex is {0:02X}&quot;, &quot;Hello&quot;);
+// error[E0277]: the trait bound `str: std::fmt::UpperHex`
+// is not satisfied</code></pre>
+<p>…and are expanded out into function calls to produce the string you need.</p>
+</section></section>
+<section><section id="exercise-1" class="title-slide slide level1"><h1>Exercise 1</h1><p>To get you familiar with the syntax:</p>
+<p>Implement FizzBuzz. In C: (i.e. translate this to Rust)</p>
+<pre class="c"><code>int main() {
+  for (int i = 1; i &lt;= 100; ++i) {
+    int m3 = i % 3 == 0, m5 = i % 5 == 0;
+    if (m3 || m5) {
+      printf(&quot;%s%s\n&quot;, m3 ? &quot;Fizz&quot; : &quot;&quot;, m5 ? &quot;Buzz&quot; : &quot;&quot;);
+    } else {
+      printf(&quot;%d\n&quot;, i);
+    }
+  }
+}</code></pre></section><section id="exercise-1-1" class="slide level2">
+<h2>Exercise 1</h2>
+<pre class="rs"><code>fn main() {
+  for i in 1..=100 {
+    let m3 = i % 3 == 0; let m5 = i % 5 == 0;
+    if m3 || m5 {
+      println!(&quot;{}{}&quot;,
+        if m3 { &quot;Fizz&quot; } else { &quot;&quot; },
+        if m5 { &quot;Buzz&quot; } else { &quot;&quot; });
+    } else {
+      println!(&quot;{}&quot;, i);
+    }
+  }
+}</code></pre>
+<p>(Note: this isn’t the most idiomatic Rust.<br />
+We’ll get there.)</p>
+</section></section>
+<section><section id="ownership-b" class="title-slide slide level1"><h1>Ownership <a href="https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html">[B]</a></h1><p>Ownership is Rust’s way of memory management.</p>
+<h3>
+Ownership rules
+</h3>
+<ul>
+<li>Each <em>value</em> has exactly one binding that <em>owns</em> it.</li>
+<li>When the binding goes out of scope, the value is <em>dropped</em>.</li>
+</ul></section><section id="string" class="slide level2">
+<h2><code>String</code></h2>
+<p>To exemplify ownership, let’s look at the String type: a resizable string buffer.</p>
+<p>It is akin to <code>StringBuilder</code> in Java/C#, or <code>std::string</code> in C++.</p>
+<pre class="rs"><code>let mut s = String::from(&quot;hello&quot;);
+s.push_str(&quot;, world!&quot;);
+println!(&quot;{}&quot;, s);</code></pre>
+<p>This prints “hello, world!”.</p>
+</section><section id="string-1" class="slide level2">
+<h2><code>String</code></h2>
+<p><code>String</code> is internally a pointer to a heap buffer and a string length (plus the length of the buffer).</p>
+<p>When we create a new <code>String</code>, the function we call allocates this buffer for us.</p>
+<p>But how do we then deallocate (free) this buffer?</p>
+</section><section id="dropping" class="slide level2">
+<h2>Dropping</h2>
+<pre class="rs"><code>{
+  let mut s = String::from(&quot;hello&quot;);
+  // do things with s
+} // the String owned by s is dropped
+</code></pre>
+<p><code>s</code> owns the <code>String</code>. When <code>s</code> goes out of scope, the value it points to is dropped.</p>
+<p>When a value is dropped, a destructor can be called. In the case of <code>String</code>, it frees the heap allocation.</p>
+<p>This is essentially RAII in C++.</p>
+</section><section id="moving" class="slide level2">
+<h2>Moving</h2>
+<pre class="rs"><code>{
+  let s1 = String::from(&quot;hello&quot;);
+  let s2 = s1;
+}</code></pre>
+<p>When <code>s1</code> and <code>s2</code> go out of scope, what happens?</p>
+</section><section id="moving-1" class="slide level2">
+<h2>Moving</h2>
+<p>When we do <code>s2 = s1</code>, the <code>String</code> is <em>moved</em> into <code>s2</code>. <code>s1</code> is now invalid.</p>
+<pre class="rs"><code>{
+  let s1 = String::from(&quot;hello&quot;);
+  let s2 = s1;
+  println!(&quot;{}&quot;, s1);
+  // error[E0382]: borrow of moved value: `s1`
+}</code></pre>
+<p>This is what is unique about Rust: values have <em>unique ownership</em>; this eliminates use-after-frees and double-frees.</p>
+</section><section id="cloneing" class="slide level2">
+<h2><code>clone</code>ing</h2>
+<pre class="rs"><code>let s1 = String::from(&quot;hello&quot;);
+let s2 = s1.clone();
+println!(&quot;{}&quot;, s1);</code></pre>
+<p><code>clone</code> is a method implemented by <code>String</code> that makes a deep copy.</p>
+</section><section id="what-about-primitives" class="slide level2">
+<h2>What about primitives?</h2>
+<pre class="rs"><code>let a = 1;
+let b = a;
+println!(&quot;{}&quot;, a);</code></pre>
+<p>Scalar primitives (integers, floats, characters) implement the <code>Copy</code> trait.</p>
+<p>(We’ll talk about traits later.)</p>
+</section><section id="drop" class="slide level2">
+<h2><a href="https://doc.rust-lang.org/std/mem/fn.drop.html"><code>drop</code></a></h2>
+<p>It is possible to manually drop a value:</p>
+<pre class="rs"><code>let s1 = String::from(&quot;hello&quot;);
+drop(s1);</code></pre>
+<p>Quick question: How is <code>drop</code> implemented?</p>
+</section></section>
+<section><section id="references" class="title-slide slide level1"><h1>References</h1><p>Suppose we want a function that does work on a <code>String</code>.</p>
+<pre class="rs"><code>fn calc_len(x: String) -&gt; usize {
+  x.len()
+}
+
+fn main() {
+  let x = String::from(&quot;hello&quot;);
+  println!(&quot;{}&quot;, calc_len(x));
+  println!(&quot;{}&quot;, x);
+  // error[E0382]: borrow of moved value: `x`
+}</code></pre></section><section id="references-1" class="slide level2">
+<h2>References</h2>
+<pre class="rs"><code>fn calc_len(x: String) -&gt; (String, usize) {
+  let len = x.len();
+  (x, len)
+}
+
+fn main() {
+  let x = String::from(&quot;hello&quot;);
+  let y = calc_len(x);
+  let x = y.0;
+  let len = y.1;
+  println!(&quot;{}&quot;, x);
+  println!(&quot;{}&quot;, len);
+}</code></pre>
+<p>Not very convenient.</p>
+</section><section id="references-2" class="slide level2">
+<h2>References</h2>
+<p>Let’s pass in a <em>reference</em> instead.</p>
+<pre class="rs"><code>fn calc_len(x: &amp;String) -&gt; usize {
+  x.len()
+}
+
+fn main() {
+  let x = String::from(&quot;hello&quot;);
+  println!(&quot;{}&quot;, calc_len(&amp;x));
+  println!(&quot;{}&quot;, x);
+}</code></pre>
+</section><section id="mutable-references" class="slide level2">
+<h2>Mutable references</h2>
+<pre class="rs"><code>fn change(some_string: &amp;String) {
+  some_string.push_str(&quot;, world&quot;);
+  // error[E0596]: cannot borrow `*some_string` as mutable,
+  // as it is behind a `&amp;` reference
+}
+
+fn main() {
+  let s = String::from(&quot;hello&quot;);
+  change(&amp;s);
+}</code></pre>
+<p>Normal references are <em>immutable</em>.</p>
+</section><section id="mutable-references-1" class="slide level2">
+<h2>Mutable references</h2>
+<pre class="rs"><code>fn change(some_string: &amp;mut String) {
+  some_string.push_str(&quot;, world&quot;);
+}
+
+fn main() {
+  let mut s = String::from(&quot;hello&quot;);
+  change(&amp;mut s);
+}</code></pre>
+<p>We need to make a <em>mutable</em> reference.</p>
+</section><section id="aside-docs" class="slide level2">
+<h2>Aside: Docs</h2>
+<p><a href="https://doc.rust-lang.org/std/string/struct.String.html#method.into_bytes"><code>String</code> docs</a></p>
+<p>You can tell whether a method takes:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">the entire value</td>
+<td style="text-align: left;"><code>fn myfn(self)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a mutable reference</td>
+<td style="text-align: left;"><code>fn myfn(&amp;mut self)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a reference</td>
+<td style="text-align: left;"><code>fn myfn(&amp;self)</code></td>
+</tr>
+</tbody>
+</table>
+</section><section id="mutable-refs-are-exclusive" class="slide level2">
+<h2>Mutable refs are exclusive</h2>
+<pre class="rs"><code>fn main() {
+  let mut s = String::from(&quot;hello&quot;);
+  let mutref1 = &amp;mut s;
+  let mutref2 = &amp;mut s;
+  // error[E0499]: cannot borrow `s` as mutable
+  // more than once at a time
+  println!(&quot;{}&quot;, mutref1);
+}</code></pre>
+</section><section id="mutable-refs-are-exclusive-1" class="slide level2">
+<h2>Mutable refs are exclusive</h2>
+<pre class="rs"><code>fn main() {
+  let mut s = String::from(&quot;hello&quot;);
+  let mutref1 = &amp;mut s;
+  let mut t = s;
+  // error[E0505]: cannot move out of `s`
+  // because it is borrowed
+  println!(&quot;{}&quot;, mutref1);
+}</code></pre>
+</section><section id="mutable-refs-are-exclusive-2" class="slide level2">
+<h2>Mutable refs are exclusive</h2>
+<pre class="rs"><code>fn main() {
+  let mut s = String::from(&quot;hello&quot;);
+  let mutref1 = &amp;mut s;
+  let ref1 = &amp;s;
+  // error[E0502]: cannot borrow `s` as immutable
+  // because it is also borrowed as mutable
+  println!(&quot;{}&quot;, mutref1);
+}</code></pre>
+</section><section id="mutable-refs-are-exclusive-3" class="slide level2">
+<h2>Mutable refs are exclusive</h2>
+<p>This solves <em>data races</em>.</p>
+<p>It is possible to have aliasing and mutability using <a href="https://doc.rust-lang.org/std/cell/index.html"><code>Cell</code>/<code>RefCell</code></a>, or <a href="https://doc.rust-lang.org/std/sync/index.html"><code>Mutex</code>/<code>RwLock</code></a> for multithreaded scenarios.</p>
+<p>These types do checks at runtime instead, in line with Rust’s philosophy: you opt-in to only what you need.</p>
+</section></section>
+<section><section id="slices" class="title-slide slide level1"><h1>Slices</h1><p>We’ve passed references to <code>String</code>s.<br />
+What if we want a substring?</p>
+<pre class="rs"><code>let s = String::from(&quot;hello world&quot;);
+
+let hello: &amp;str = &amp;s[0..5];
+let world = &amp;s[6..11];
+
+println!(&quot;{} {}&quot;, world.len(), world);</code></pre>
+<p><code>&amp;str</code> is a <em>fat pointer</em>: like <code>char *</code>, but it tracks the <em>length</em> too.</p></section><section id="string-literals" class="slide level2">
+<h2>String literals</h2>
+<p>The type of a string literal is <code>&amp;str</code> *.</p>
+<pre class="rs"><code>let s: &amp;str = &quot;Hello!&quot;;
+println!(&quot;{} {}&quot;, s.len(), s);</code></pre>
+<p>We can slice them too.</p>
+<pre class="rs"><code>let s: &amp;str = &quot;Hello world!&quot;;
+println!(&quot;{}&quot;, &amp;s[..5]);</code></pre>
+<p>* Almost.</p>
+</section><section id="array-slices" class="slide level2">
+<h2>Array slices</h2>
+<p>You can slice arrays:</p>
+<pre class="rs"><code>let arr: [u32; 5] = [1, 2, 3, 4, 5];
+let slice: &amp;[u32] = &amp;arr[..3];
+println!(&quot;{:?}&quot;, slice);</code></pre>
+<p>The type of a slice is just <code>&amp;[T]</code>.</p>
+</section></section>
+<section><section id="lifetimes" class="title-slide slide level1"><h1>Lifetimes</h1><pre class="rs" data-line-numbers=""><code>let r;
+{
+  let x = 5;
+  r = &amp;x;
+  // error[E0597]: `x` does not live long enough
+}
+println!(&quot;r: {}&quot;, r);</code></pre>
+<p><code>x</code> lives from line 3–6: its lifetime ends at line 6.</p>
+<p>Therefore, any reference to <code>x</code> cannot be referenced past line 6.</p>
+<p>We’ve eliminated dangling pointers.</p></section><section id="specifying-lifetimes" class="slide level2">
+<h2>Specifying lifetimes</h2>
+<p>Lifetimes are part of references’ types.</p>
+<p>It is possible to name lifetimes, but we’ll only see how this is important later.</p>
+<p>There is a special lifetime name <code>static</code>.</p>
+<p>With that, we can give the full type of a string literal:</p>
+<pre class="rs"><code>let x: &amp;&#39;static str = &quot;Hello!&quot;;</code></pre>
+</section></section>
+<section><section id="structs-b" class="title-slide slide level1"><h1>Structs <a href="https://doc.rust-lang.org/book/ch05-01-defining-structs.html">[B]</a></h1><pre class="rs"><code>struct Bus {
+  number: String, interval: u32
+}
+
+fn get_route(num: &amp;str) -&gt; Bus {
+  Bus {
+    number: String::from(num), interval: 5
+  }
+}
+
+fn main() {
+  let route = get_route(&quot;A1&quot;);
+  println!(&quot;Got route: {}, interval {}&quot;,
+    route.number, route.interval);
+}</code></pre></section><section id="impling-methods" class="slide level2">
+<h2><code>impl</code>ing methods</h2>
+<p>Continuing from the previous example.</p>
+<pre class="rs"><code>impl Bus {
+  fn arrive(&amp;self) {
+    println!(&quot;{} has arrived&quot;, self.number);
+  }
+}
+
+fn main() {
+  let route = get_route(&quot;A1&quot;);
+  route.arrive();
+}</code></pre>
+</section><section id="update-syntax" class="slide level2">
+<h2>Update syntax</h2>
+<pre class="rs"><code>impl Bus {
+  fn with_number(self, new_num: &amp;str) -&gt; Bus {
+    Bus {
+      number: String::from(new_num),
+      ..self
+    }
+  }
+}
+
+fn main() {
+  let route = get_route(&quot;A1&quot;).with_number(&quot;A2&quot;);
+  route.arrive();
+}</code></pre>
+</section><section id="associated-methods" class="slide level2">
+<h2>Associated methods</h2>
+<p>i.e. “static” methods</p>
+<pre class="rs"><code>impl Bus {
+  fn of_number(num: &amp;str) -&gt; Self {
+    Bus {
+      number: String::from(num), interval: 5
+    }
+  }
+}
+
+fn main() {
+  let route = Bus::of_number(&quot;A1&quot;).with_number(&quot;A2&quot;);
+  route.arrive();
+}</code></pre>
+</section></section>
+<section><section id="enums-b" class="title-slide slide level1"><h1>Enums <a href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html">[B]</a></h1><p>Sum types, or algebraic data types.</p>
+<pre class="rs"><code>enum Message {
+  Quit,
+  Move { x: i32, y: i32 },
+  Write(String),
+  ChangeColor(i32, i32, i32),
+}</code></pre></section><section id="using-enums" class="slide level2">
+<h2>Using enums</h2>
+<pre class="rs"><code>fn handle(x: Message) {
+  // ... ???
+}
+
+fn main() {
+  let x = Message::ChangeColor(0, 0, 0);
+  handle(x);
+}</code></pre>
+<p>How do we know which variant we have?</p>
+</section></section>
+<section><section id="match-expression-b" class="title-slide slide level1"><h1><code>match</code> expression <a href="https://doc.rust-lang.org/book/ch06-02-match.html">[B]</a></h1><pre class="rs"><code>let x = Message::ChangeColor(0, 0, 0);
+
+fn handle(x: Message) {
+  match x {
+    Message::Quit =&gt; println!(&quot;Quitting.&quot;),
+    Message::Move { x, y } =&gt; println!(&quot;Moving to {}, {}&quot;, x, y),
+    Message::Write(str) =&gt; println!(&quot;Write {}&quot;, str),
+    Message::ChangeColor(r, g, b) =&gt; println!(&quot;Changing colour to {}, {}, {}&quot;, r, g, b)
+  };
+}</code></pre></section><section id="match-is-exhaustive" class="slide level2">
+<h2><code>match</code> is exhaustive</h2>
+<pre class="rs"><code>fn handle(x: Message) {
+  match x {
+    Message::Quit =&gt; println!(&quot;Quitting.&quot;),
+    Message::Move { x, y } =&gt; println!(&quot;Moving to {}, {}&quot;, x, y),
+    Message::Write(str) =&gt; println!(&quot;Write {}&quot;, str),
+    // Message::ChangeColor(r, g, b) =&gt; println!(&quot;Changing colour to {}, {}, {}&quot;, r, g, b)
+  };
+}</code></pre>
+<p>Comment out that line. We get:</p>
+<pre><code>error[E0004]: non-exhaustive patterns:
+  `ChangeColor(_, _, _)` not covered</code></pre>
+</section></section>
+<section id="if-let-b" class="title-slide slide level1"><h1><code>if let</code> <a href="https://doc.rust-lang.org/book/ch06-03-if-let.html">[B]</a></h1><p>If we only care about one case, we can use <code>if let</code>:</p>
+<pre><code>let x = Message::ChangeColor(0, 0, 0);
+if let Message::ChangeColor(r, g, b) = x {
+  println!(&quot;Changing colour to {}, {}, {}&quot;, r, g, b);
+}</code></pre></section>
+<section><section id="patterns-br" class="title-slide slide level1"><h1>Patterns <a href="https://doc.rust-lang.org/book/ch18-03-pattern-syntax.html">[B]</a><a href="https://doc.rust-lang.org/stable/reference/patterns.html">[R]</a></h1><p><code>if let</code>, <code>match</code>, and in fact <code>let</code> all work on <em>patterns</em>.</p>
+<pre class="rs"><code>let (x, y) = (1, 2);
+println!(&quot;{} {}&quot;, x, y);</code></pre>
+<p><code>(x, y)</code> is a <em>tuple pattern</em>.</p></section><section id="patterns" class="slide level2">
+<h2>Patterns</h2>
+<p>You can do the same with enums and structs.</p>
+<pre class="rs"><code>struct Bus {
+  number: String, interval: u32
+}
+
+impl Bus {
+  fn of_number(num: &amp;str) -&gt; Self {
+    Bus {
+      number: String::from(num), interval: 5
+    }
+  }
+}
+
+fn main() {
+  let route = Bus::of_number(&quot;A1&quot;);
+  let Bus { interval: int, .. } = route;
+  println!(&quot;Got interval {}&quot;, int);
+}</code></pre>
+</section><section id="patterns-1" class="slide level2">
+<h2>Patterns</h2>
+<p><code>_</code> acts as a wildcard, since matches need to be exhaustive.</p>
+<pre class="rs"><code>fn main() {
+  let x = 7;
+  match x {
+    1 =&gt; println!(&quot;one&quot;),
+    3 =&gt; println!(&quot;three&quot;),
+    5 =&gt; println!(&quot;five&quot;),
+    7 =&gt; println!(&quot;seven&quot;),
+    _ =&gt; (),
+  };
+}</code></pre>
+</section></section>
+<section><section id="exercise-2" class="title-slide slide level1"><h1>Exercise 2</h1><p>Rewrite FizzBuzz with <code>match</code>.</p></section><section id="exercise-2-1" class="slide level2">
+<h2>Exercise 2</h2>
+<pre><code>fn main() {
+  for i in 1..=100 {
+    match (i % 3, i % 5) {
+      (0, 0) =&gt; println!(&quot;FizzBuzz&quot;),
+      (0, _) =&gt; println!(&quot;Fizz&quot;),
+      (_, 0) =&gt; println!(&quot;Buzz&quot;),
+      (_, _) =&gt; println!(&quot;{}&quot;, i)
+    }
+  }
+}</code></pre>
+</section></section>
+<section id="back-to-enums" class="title-slide slide level1"><h1>Back to enums</h1><p>Like structs, you can define methods on them.</p>
+<pre class="rs"><code>enum Message {
+  Quit,
+  Move { x: i32, y: i32 },
+  Write(String),
+  ChangeColor(i32, i32, i32),
+}
+
+impl Message {
+  fn is_quit(&amp;self) -&gt; bool {
+    match self {
+      Message::Quit =&gt; true,
+      _ =&gt; false
+    }
+  }
+}
+
+fn main() {
+  println!(&quot;{}&quot;, Message::Quit.is_quit());
+}</code></pre></section>
+<section><section id="option" class="title-slide slide level1"><h1>Option</h1><p>Instead of <code>null</code>, Rust has the <code>Option</code> type.</p>
+<pre class="rs"><code>struct Person {
+  name: Option&lt;String&gt;
+}
+
+impl Person {
+  fn greet(&amp;self) {
+    match &amp;self.name {
+      Some(name) =&gt; println!(&quot;Hello, {}&quot;, name),
+      None =&gt; println!(&quot;Hello, MISSINGNO.&quot;)
+    }
+  }
+}
+
+fn main() {
+  Person { name: None }.greet();
+}</code></pre></section><section id="option-methods" class="slide level2">
+<h2>Option methods</h2>
+<p><code>Option</code> has many <a href="https://doc.rust-lang.org/std/option/enum.Option.html">methods</a>. Let’s rewrite <code>Person::greet</code>.</p>
+<pre class="rs"><code>struct Person {
+  name: Option&lt;String&gt;
+}
+
+impl Person {
+  fn greet(&amp;self) {
+    println!(&quot;Hello, {}&quot;,
+      self.name.as_ref().map(String::as_str)
+        .unwrap_or(&quot;MISSINGNO.&quot;));
+  }
+}
+
+fn main() {
+  Person { name: None }.greet();
+}</code></pre>
+</section></section>
+<section id="result-b" class="title-slide slide level1"><h1>Result <a href="https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html">[B]</a></h1><p>Instead of exceptions, Rust has <code>Result</code>.</p>
+<pre class="rs"><code>fn might_fail(inp: i32) -&gt; Result&lt;i32, &amp;&#39;static str&gt; {
+  if inp % 3 == 0 {
+    Err(&quot;failed!&quot;)
+  } else {
+    Ok(inp)
+  }
+}
+
+fn main() {
+  match might_fail(3) {
+    Ok(result) =&gt; println!(&quot;Got {}&quot;, result),
+    Err(err) =&gt; println!(&quot;Failed: {}&quot;, err)
+  };
+}</code></pre>
+<p><code>Result</code> is a <em>monad</em>, and has many <a href="https://doc.rust-lang.org/std/result/enum.Result.html">methods</a> too.</p></section>
+<section id="propagating-errors-b" class="title-slide slide level1"><h1>Propagating errors: <code>?</code> <a href="https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#propagating-errors">[B]</a></h1><p>The <code>?</code> operator helps to reduce boilerplate.</p>
+<pre class="rs"><code>fn might_fail_2(inp: i32) -&gt; Result&lt;i32, &amp;&#39;static str&gt; {
+  let x = might_fail(inp)?;
+  Ok(might_fail(2)? * x)
+}
+
+fn main() {
+  println!(&quot;{:?}&quot;, might_fail_2(3));
+  println!(&quot;{:?}&quot;, might_fail_2(4));
+}</code></pre></section>
+<section id="panicking-b" class="title-slide slide level1"><h1><code>panic</code>king <a href="https://doc.rust-lang.org/book/ch09-01-unrecoverable-errors-with-panic.html">[B]</a></h1><p>Some functions are documented to <code>panic</code> on failure conditions.</p>
+<p>On <code>panic</code>, your application will abort.</p>
+<p>It is Rust’s way of failing fast, when there is no way to recover from an exceptional situation.</p></section>
+<section><section id="generics-b" class="title-slide slide level1"><h1>Generics <a href="https://doc.rust-lang.org/book/ch10-01-syntax.html">[B]</a></h1><p>Rust has generics, akin to those in Java and C#.</p>
+<p>We’ve already seen <code>Option</code> and <code>Result</code>.<br />
+Let’s see how they are defined.</p>
+<pre class="rs"><code>enum Option&lt;T&gt; {
+  Some(T),
+  None,
+}
+
+enum Result&lt;T, E&gt; {
+  Ok(T),
+  Err(E),
+}</code></pre></section><section id="generics" class="slide level2">
+<h2>Generics</h2>
+<p>In <code>impl</code>s:</p>
+<pre class="rs"><code>struct Point&lt;T&gt; {
+  x: T,
+  y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+  fn x(&amp;self) -&gt; &amp;T {
+    &amp;self.x
+  }
+}</code></pre>
+</section><section id="generics-1" class="slide level2">
+<h2>Generics</h2>
+<p>You can <code>impl</code> a specific concrete type:</p>
+<pre class="rs"><code>impl Point&lt;f32&gt; {
+  fn distance_from_origin(&amp;self) -&gt; f32 {
+    (self.x.powi(2) + self.y.powi(2)).sqrt()
+  }
+}</code></pre>
+</section><section id="generics-over-lifetimes" class="slide level2">
+<h2>Generics over lifetimes</h2>
+<pre class="rs"><code>fn longest&lt;&#39;a&gt;(x: &amp;&#39;a str, y: &amp;&#39;a str) -&gt; &amp;&#39;a str {
+    if x.len() &gt; y.len() {
+        x
+    } else {
+        y
+    }
+}</code></pre>
+</section></section>
+<section><section id="traits" class="title-slide slide level1"><h1>Traits</h1><p>Traits are like interfaces in Java and C#. They’re closest to Haskell typeclasses.</p>
+<pre class="rs"><code>trait Summary {
+  fn summarize(&amp;self) -&gt; String;
+}</code></pre></section><section id="impling-traits-b" class="slide level2">
+<h2><code>impl</code>ing traits <a href="https://doc.rust-lang.org/book/ch10-02-traits.html#implementing-a-trait-on-a-type">[B]</a></h2>
+<pre class="rs"><code>struct NewsArticle {
+  headline: String,
+  author: String,
+  content: String,
+}
+
+impl Summary for NewsArticle {
+  fn summarize(&amp;self) -&gt; String {
+    format!(&quot;{}, by {}&quot;, self.headline, self.author)
+  }
+}
+
+fn main() {
+  let art = NewsArticle {
+    headline: &quot;Rust is great!&quot;.to_owned(),
+    author: &quot;Graydon Hoare&quot;.to_owned(),
+    content: &quot;Rust is really really good!&quot;.to_owned()
+  };
+  println!(&quot;{}&quot;, art.summarize());
+}</code></pre>
+</section><section id="impling-traits" class="slide level2">
+<h2><code>impl</code>ing traits</h2>
+<p>You can <code>impl</code> a trait you define on other types:</p>
+<pre class="rs"><code>impl Summary for String {
+  fn summarize(&amp;self) -&gt; String {
+    (&amp;self[..self.len().min(10)]).to_owned()
+  }
+}
+
+fn main() {
+  let x = String::from(&quot;Hellohello hello&quot;);
+  println!(&quot;{}&quot;, x.summarize());
+}</code></pre>
+</section><section id="trait-bounds-b" class="slide level2">
+<h2>Trait bounds <a href="https://doc.rust-lang.org/book/ch10-02-traits.html#trait-bound-syntax">[B]</a></h2>
+<pre class="rs"><code>fn print_summary&lt;T&gt;(x: &amp;T) where T: Summary {
+  println!(&quot;{}&quot;, x.summarize());
+}
+
+fn main() {
+  let x = String::from(&quot;Hellohello hello&quot;);
+  print_summary(&amp;x);
+}</code></pre>
+</section><section id="trait-bounds" class="slide level2">
+<h2>Trait bounds</h2>
+<pre class="rs"><code>fn print_summary&lt;T: Summary&gt;(x: &amp;T) {
+  println!(&quot;{}&quot;, x.summarize());
+}
+
+fn main() {
+  let x = String::from(&quot;Hellohello hello&quot;);
+  print_summary(&amp;x);
+}</code></pre>
+</section><section id="blanket-impls-b" class="slide level2">
+<h2>Blanket <code>impl</code>s <a href="https://doc.rust-lang.org/book/ch10-02-traits.html#using-trait-bounds-to-conditionally-implement-methods">[B]</a></h2>
+<pre class="rs"><code>use std::fmt::Display;
+
+impl&lt;T: Display&gt; Summary for T {
+  fn summarize(&amp;self) -&gt; String {
+    let s = self.to_string();
+    (&amp;s[..s.len().min(5)]).to_owned()
+  }
+}
+
+fn main() {
+  print_summary(&amp;1234567890);
+}</code></pre>
+</section></section>
+<section><section id="common-traits" class="title-slide slide level1"><h1>Common traits</h1><ul>
+<li><code>Debug</code>: Can be printed with <code>{:?}</code></li>
+<li><code>Clone</code>: Can be <code>.clone()</code>d</li>
+<li><code>Copy</code>: Opt-out of move semantics</li>
+</ul></section><section id="derive" class="slide level2">
+<h2><code>#[derive]</code></h2>
+<p>Some traits can be auto-derived:</p>
+<pre class="rs"><code>#[derive(Debug, Clone)]
+struct Bus {
+  number: String, interval: u32
+}
+
+fn main() {
+  let a2 = Bus {
+    number: &quot;A2&quot;.to_owned(),
+    interval: 5
+  };
+  let a2_2 = a2.clone();
+  println!(&quot;{:?}&quot;, a2);
+  println!(&quot;{:?}&quot;, a2_2);
+}</code></pre>
+</section></section>
+<section id="operators" class="title-slide slide level1"><h1>Operators</h1><p>Rust operators are defined using traits e.g. <a href="https://doc.rust-lang.org/std/ops/trait.Add.html"><code>Add</code></a></p>
+<pre class="rs"><code>use std::ops::Add;
+
+#[derive(Debug, Clone, Copy)]
+struct Point {
+  x: i32,
+  y: i32,
+}
+
+impl Add for Point {
+  type Output = Self;
+
+  fn add(self, other: Self) -&gt; Self {
+    Self {
+      x: self.x + other.x,
+      y: self.y + other.y,
+    }
+  }
+}
+
+fn main() {
+  let p1 = Point { x: 5, y: 5 };
+  let p2 = Point { x: -5, y: 5 };
+  println!(&quot;{:?}&quot;, p1 + p2);
+}</code></pre></section>
+<section><section id="lambdas-and-closures-b" class="title-slide slide level1"><h1>Lambdas and closures <a href="https://doc.rust-lang.org/book/ch13-01-closures.html">[B]</a></h1><pre class="rs"><code>fn  add_one_v1   (x: u32) -&gt; u32 { x + 1 }
+let add_one_v2 = |x: u32| -&gt; u32 { x + 1 };
+let add_one_v3 = |x|             { x + 1 };
+let add_one_v4 = |x|               x + 1  ;</code></pre></section><section id="lambdas-and-closures" class="slide level2">
+<h2>Lambdas and closures</h2>
+<p>Closures implement (one of)</p>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/ops/trait.Fn.html"><code>Fn</code></a>: those that only take immutable references to captured variables</li>
+<li><a href="https://doc.rust-lang.org/std/ops/trait.FnMut.html"><code>FnMut</code></a>: those that take mutable references</li>
+<li><a href="https://doc.rust-lang.org/std/ops/trait.FnOnce.html"><code>FnOnce</code></a>: those that might only be callable once</li>
+</ul>
+</section><section id="lambdas-and-closures-1" class="slide level2">
+<h2>Lambdas and closures</h2>
+<pre class="rs"><code>fn apply_fn&lt;F, T&gt;(f: F, arg: T) -&gt; T
+  where F: Fn(T) -&gt; T {
+  f(arg)
+}
+
+fn main() {
+  println!(&quot;{}&quot;, apply_fn(|x| x * 2, 5));
+}</code></pre>
+</section><section id="lambdas-and-closures-2" class="slide level2">
+<h2>Lambdas and closures</h2>
+<pre class="rs"><code>fn apply_fn&lt;F, T&gt;(mut f: F, arg: T) -&gt; T
+  where F: FnMut(T) -&gt; T {
+  f(arg)
+}
+
+fn main() {
+  let mut y = 10;
+  println!(&quot;{}&quot;, apply_fn(|x| { y += x; y }, 5));
+}</code></pre>
+</section></section>
+<section><section id="iterators-b" class="title-slide slide level1"><h1>Iterators <a href="https://doc.rust-lang.org/book/ch13-02-iterators.html">[B]</a></h1><p>Iterators are like Streams in Java, and LINQ in C#.</p>
+<p>You can iterate through them:</p>
+<pre class="rs"><code>let x = [1, 2, 3, 4, 5];
+for i in x.iter() {
+  println!(&quot;{}&quot;, i);
+}</code></pre></section><section id="iterators" class="slide level2">
+<h2>Iterators</h2>
+<p>But their power comes from <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html">their composability</a>:</p>
+<pre class="rs"><code>let x = [1, 2, 3, 4, 5];
+for i in x.iter().map(|x| x * x) {
+  println!(&quot;{}&quot;, i);
+}</code></pre>
+</section><section id="iterators-1" class="slide level2">
+<h2>Iterators</h2>
+<p>On ranges:</p>
+<pre class="rs"><code>for i in (1..=5).map(|x| x * x) {
+  println!(&quot;{}&quot;, i);
+}</code></pre>
+</section><section id="iterators-2" class="slide level2">
+<h2>Iterators</h2>
+<pre class="rs"><code>for i in (1..=5).chain(21..=25).map(|x| x * x) {
+  println!(&quot;{}&quot;, i);
+}</code></pre>
+</section><section id="iterators-3" class="slide level2">
+<h2>Iterators</h2>
+<pre class="rs"><code>let x = [&quot;Hello&quot;, &quot;World&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;];
+for (i, s) in x.iter().enumerate() {
+  println!(&quot;{} = {}&quot;, i, s);
+}</code></pre>
+</section></section>
+<section><section id="crates.io" class="title-slide slide level1"><h1><a href="https://crates.io/">crates.io</a></h1><p>Rust’s package repository.</p></section><section id="adding-dependencies" class="slide level2">
+<h2>Adding dependencies</h2>
+<p>In <code>Cargo.toml</code>:</p>
+<pre class="toml"><code>[dependencies]
+rand = &quot;0.7&quot;</code></pre>
+</section><section id="using-dependencies" class="slide level2">
+<h2>Using dependencies</h2>
+<p>Docs at <a href="https://docs.rs/rand">docs.rs/rand</a></p>
+<p><code>src/main.rs</code>:</p>
+<pre class="rs"><code>fn main() {
+  for i in (1..100).map(|_| rand::random::&lt;i32&gt;()) {
+    println!(&quot;{}&quot;, i);
+  }
+}</code></pre>
+</section><section id="common-crates" class="slide level2">
+<h2>Common crates</h2>
+<ul>
+<li><a href="https://crates.io/crates/rand">rand</a>: Random generators</li>
+<li><a href="https://crates.io/crates/log">log</a>: Logging</li>
+<li><a href="https://crates.io/crates/serde">serde</a>: Serialisation</li>
+<li><a href="https://crates.io/crates/tokio">tokio</a>: Async I/O</li>
+<li><a href="https://crates.io/crates/crossbeam">crossbeam</a>: Tools for concurrent programming</li>
+<li><a href="https://crates.io/crates/hyper">hyper</a>: Low-level HTTP</li>
+<li><a href="https://crates.io/crates/reqwest">reqwest</a>: Higher-level HTTP</li>
+<li>…</li>
+</ul>
+</section></section>
+<section><section id="documentation-b" class="title-slide slide level1"><h1>Documentation <a href="https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#making-useful-documentation-comments">[B]</a></h1><p>You can make documentation comments using <code>///</code>:</p>
+<pre class="rs"><code>/// Adds one to the number given.
+///
+/// # Examples
+///
+/// ```
+/// let arg = 5;
+/// let answer = my_crate::add_one(arg);
+///
+/// assert_eq!(6, answer);
+/// ```
+pub fn add_one(x: i32) -&gt; i32 {
+    x + 1
+}</code></pre></section><section id="documentation" class="slide level2">
+<h2>Documentation</h2>
+<p>You can render the documentation:</p>
+<pre class="shell"><code>$ cargo doc</code></pre>
+<p><img data-src="img/doc.png" /></p>
+</section></section>
+<section><section id="architecting-rust-programs" class="title-slide slide level1"><h1>Architecting Rust programs</h1><p>Some high-level tips:</p>
+<ul>
+<li>Model programs as a <em>flow</em> of data
+<ul>
+<li>Like functional programs</li>
+<li>Avoid shared mutable data, where possible</li>
+<li>Have a logical ownership hierarchy</li>
+</ul></li>
+</ul></section><section id="architecting-rust-programs-1" class="slide level2">
+<h2>Architecting Rust programs</h2>
+<ul>
+<li>Decide on <code>&amp;</code> vs <code>&amp;mut</code> from the caller’s perspective
+<ul>
+<li>Expect to have many threads calling it? Use <code>&amp;</code> and handle mutability internally</li>
+<li>Expect to have only one thread? Use <code>&amp;mut</code> to enforce that guarantee</li>
+</ul></li>
+</ul>
+</section><section id="architecting-rust-programs-2" class="slide level2">
+<h2>Architecting Rust programs</h2>
+<ul>
+<li>If you’re fighting the borrow checker, something is not right</li>
+</ul>
+</section></section>
+<section id="where-to-go-from-here" class="title-slide slide level1"><h1>Where to go from here?</h1><ul>
+<li>Read the rest of <a href="https://doc.rust-lang.org/book/">the book</a></li>
+<li>Dive in and work on something!</li>
+<li><a href="https://github.com/rust-unofficial/awesome-rust">Awesome Rust</a></li>
+<li>…</li>
+</ul></section>
+<section id="thank-you" class="title-slide slide level1"><h1>Thank you!</h1></section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlightjs-line-numbers.js@2.7.0/src/highlightjs-line-numbers.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@3.8.0/js/reveal.min.js"></script>
+
+<script>
+  // More info about config & dependencies:
+  // - https://github.com/hakimel/reveal.js#configuration
+  // - https://github.com/hakimel/reveal.js#dependencies
+  Reveal.initialize({
+    dependencies: [
+      { src: 'reveal-highlight.js', async: true },
+    ],
+    slideNumber: true,
+    fragmentInURL: true,
+    transitionSpeed: 'fast',
+    // center: false,
+    hash: true,
+    navigationMode: 'linear',
+    transition: 'fade',
+    highlight: {
+      escapeHTML: false
+    },
+    fromPandoc: true
+  });
+</script>
+</body>
+</html>
